@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: agricred-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: agricred
+      POSTGRES_USER: agricred
+      POSTGRES_PASSWORD: agricred_dev_only
+    ports:
+      - "5432:5432"
+    volumes:
+      - agricred_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agricred -d agricred"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  agricred_pgdata:
